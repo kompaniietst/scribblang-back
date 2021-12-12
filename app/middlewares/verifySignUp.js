@@ -52,8 +52,8 @@
 // };
 
 const verifySignUp = {
-    // checkDuplicateUsernameOrEmail,
-    // checkRolesExisted
+    checkDuplicateUsernameOrEmail,
+    checkRolesExisted
 };
 
 // module.exports = verifySignUp;
