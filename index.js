@@ -18,94 +18,94 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./app/models");
-const Role = db.role;
-const SystemEntityType = db.systemEntityType;
+// const Role = db.role;
+// const SystemEntityType = db.systemEntityType;
 
-db.mongoose
-    .connect(`mongodb+srv://kompanietst:Rjnbyzgfkrf123@cluster0.xazd5.mongodb.net/scribblang`, {
-        // .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
-    .then(() => {
-        console.log("Successfully connect to MongoDB.");
-        initial();
-    })
-    .catch(err => {
-        console.error("Connection error", err);
-        process.exit();
-    });
+// db.mongoose
+//     .connect(`mongodb+srv://kompanietst:Rjnbyzgfkrf123@cluster0.xazd5.mongodb.net/scribblang`, {
+//         // .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//     })
+//     .then(() => {
+//         console.log("Successfully connect to MongoDB.");
+//         initial();
+//     })
+//     .catch(err => {
+//         console.error("Connection error", err);
+//         process.exit();
+//     });
 
 
-function initial() {
-    Role.estimatedDocumentCount((err, count) => {
-        if (!err && count === 0) {
-            new Role({
-                name: "user"
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
+// function initial() {
+//     Role.estimatedDocumentCount((err, count) => {
+//         if (!err && count === 0) {
+//             new Role({
+//                 name: "user"
+//             }).save(err => {
+//                 if (err) {
+//                     console.log("error", err);
+//                 }
 
-                console.log("added 'user' to roles collection");
-            });
+//                 console.log("added 'user' to roles collection");
+//             });
 
-            new Role({
-                name: "moderator"
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
+//             new Role({
+//                 name: "moderator"
+//             }).save(err => {
+//                 if (err) {
+//                     console.log("error", err);
+//                 }
 
-                console.log("added 'moderator' to roles collection");
-            });
+//                 console.log("added 'moderator' to roles collection");
+//             });
 
-            new Role({
-                name: "admin"
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
+//             new Role({
+//                 name: "admin"
+//             }).save(err => {
+//                 if (err) {
+//                     console.log("error", err);
+//                 }
 
-                console.log("added 'admin' to roles collection");
-            });
-        }
-    });
+//                 console.log("added 'admin' to roles collection");
+//             });
+//         }
+//     });
 
-    SystemEntityType.estimatedDocumentCount((err, count) => {
-        if (!err && count === 0) {
-            new SystemEntityType({
-                name: "folder"
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
+//     SystemEntityType.estimatedDocumentCount((err, count) => {
+//         if (!err && count === 0) {
+//             new SystemEntityType({
+//                 name: "folder"
+//             }).save(err => {
+//                 if (err) {
+//                     console.log("error", err);
+//                 }
 
-                console.log("added 'folder' to roles collection");
-            });
+//                 console.log("added 'folder' to roles collection");
+//             });
 
-            new SystemEntityType({
-                name: "list"
-            }).save(err => {
-                if (err) {
-                    console.log("error", err);
-                }
+//             new SystemEntityType({
+//                 name: "list"
+//             }).save(err => {
+//                 if (err) {
+//                     console.log("error", err);
+//                 }
 
-                console.log("added 'list' to roles collection");
-            });
+//                 console.log("added 'list' to roles collection");
+//             });
 
-        }
-    });
-}
+//         }
+//     });
+// }
 
-// simple route
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to bezkoder application." });
-});
+// // simple route
+// app.get("/", (req, res) => {
+//     res.json({ message: "Welcome to bezkoder application." });
+// });
 
-// routes
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
-require('./app/routes/word.routes')(app);
-require('./app/routes/systemEntity.routes')(app);
+// // routes
+// require('./app/routes/auth.routes')(app);
+// require('./app/routes/user.routes')(app);
+// require('./app/routes/word.routes')(app);
+// require('./app/routes/systemEntity.routes')(app);
 
