@@ -18,8 +18,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./app/models");
-// const Role = db.role;
-// const SystemEntityType = db.systemEntityType;
+const Role = db.role;
+const SystemEntityType = db.systemEntityType;
 
 // db.mongoose
 //     .connect(`mongodb+srv://kompanietst:Rjnbyzgfkrf123@cluster0.xazd5.mongodb.net/scribblang`, {
