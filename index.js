@@ -9,9 +9,9 @@ app
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-  // parse requests of content-type - application/json
+// parse requests of content-type - application/json
 app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
@@ -30,7 +30,15 @@ const options = {
   // useFindAndModify: false,
   // family: 4 // Use IPv4, skip trying IPv6
 };
-mongoose.connect(MONGODB_URI,options)
+mongoose.connect(MONGODB_URI, options)
+  .then(() => {
+    console.log("Successfully connect to MongoDB.");
+    initial();
+  })
+  .catch(err => {
+    console.error("Connection error", err);
+    // process.exit();
+  });
 
 // db.mongoose
 //     .connect(`mongodb+srv://kompanietst:Rjnbyzgfkrf123@cluster0.xazd5.mongodb.net/scribblang`, {
@@ -48,66 +56,66 @@ mongoose.connect(MONGODB_URI,options)
 //     });
 
 
-// function initial() {
-//     Role.estimatedDocumentCount((err, count) => {
-//         if (!err && count === 0) {
-//             new Role({
-//                 name: "user"
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
+function initial() {
+    Role.estimatedDocumentCount((err, count) => {
+        if (!err && count === 0) {
+            new Role({
+                name: "user"
+            }).save(err => {
+                if (err) {
+                    console.log("error", err);
+                }
 
-//                 console.log("added 'user' to roles collection");
-//             });
+                console.log("added 'user' to roles collection");
+            });
 
-//             new Role({
-//                 name: "moderator"
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
+            new Role({
+                name: "moderator"
+            }).save(err => {
+                if (err) {
+                    console.log("error", err);
+                }
 
-//                 console.log("added 'moderator' to roles collection");
-//             });
+                console.log("added 'moderator' to roles collection");
+            });
 
-//             new Role({
-//                 name: "admin"
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
+            new Role({
+                name: "admin"
+            }).save(err => {
+                if (err) {
+                    console.log("error", err);
+                }
 
-//                 console.log("added 'admin' to roles collection");
-//             });
-//         }
-//     });
+                console.log("added 'admin' to roles collection");
+            });
+        }
+    });
 
-//     SystemEntityType.estimatedDocumentCount((err, count) => {
-//         if (!err && count === 0) {
-//             new SystemEntityType({
-//                 name: "folder"
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
+    SystemEntityType.estimatedDocumentCount((err, count) => {
+        if (!err && count === 0) {
+            new SystemEntityType({
+                name: "folder"
+            }).save(err => {
+                if (err) {
+                    console.log("error", err);
+                }
 
-//                 console.log("added 'folder' to roles collection");
-//             });
+                console.log("added 'folder' to roles collection");
+            });
 
-//             new SystemEntityType({
-//                 name: "list"
-//             }).save(err => {
-//                 if (err) {
-//                     console.log("error", err);
-//                 }
+            new SystemEntityType({
+                name: "list"
+            }).save(err => {
+                if (err) {
+                    console.log("error", err);
+                }
 
-//                 console.log("added 'list' to roles collection");
-//             });
+                console.log("added 'list' to roles collection");
+            });
 
-//         }
-//     });
-// }
+        }
+    });
+}
 
 // // simple route
 // app.get("/", (req, res) => {
