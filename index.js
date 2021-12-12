@@ -124,7 +124,7 @@ app.get("/", (req, res) => {
 
 // routes
 require('./app/routes/auth.routes')(app);
-// require('./app/routes/user.routes')(app);
+require('./app/routes/user.routes')(app);
 // require('./app/routes/word.routes')(app);
 // require('./app/routes/systemEntity.routes')(app);
 
