@@ -21,20 +21,20 @@ const db = require("./app/models");
 const Role = db.role;
 const SystemEntityType = db.systemEntityType;
 
-// db.mongoose
-//     .connect(`mongodb+srv://kompanietst:Rjnbyzgfkrf123@cluster0.xazd5.mongodb.net/scribblang`, {
-//         // .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true
-//     })
-//     .then(() => {
-//         console.log("Successfully connect to MongoDB.");
-//         initial();
-//     })
-//     .catch(err => {
-//         console.error("Connection error", err);
-//         process.exit();
-//     });
+db.mongoose
+    .connect(`mongodb+srv://kompanietst:Rjnbyzgfkrf123@cluster0.xazd5.mongodb.net/scribblang`, {
+        // .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => {
+        console.log("Successfully connect to MongoDB.");
+        initial();
+    })
+    .catch(err => {
+        console.error("Connection error", err);
+        process.exit();
+    });
 
 
 // function initial() {
