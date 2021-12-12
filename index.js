@@ -22,6 +22,16 @@ const Role = db.role;
 const SystemEntityType = db.systemEntityType;
 
 var mongoose = require("mongoose");
+
+var MONGODB_URI = process.env.MONGODB_URL || "mongodb+srv://kompanietst:Rjnbyzgfkrf123@cluster0.xazd5.mongodb.net/scribblang";
+const options = {
+  // useNewUrlParser: true,
+  // useCreateIndex: true,
+  // useFindAndModify: false,
+  // family: 4 // Use IPv4, skip trying IPv6
+};
+mongoose.connect(MONGODB_URI,options)
+
 // db.mongoose
 //     .connect(`mongodb+srv://kompanietst:Rjnbyzgfkrf123@cluster0.xazd5.mongodb.net/scribblang`, {
 //         // .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
