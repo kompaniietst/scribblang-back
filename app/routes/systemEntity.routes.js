@@ -1,4 +1,5 @@
 const controller = require("../controllers/systemEntity.controller");
+const { authJwt } = require("../middlewares");
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
@@ -11,6 +12,7 @@ module.exports = function (app) {
 
     app.get(
         "/api/allsystementites",
+        [authJwt.verifyToken],
         controller.allsystementites
     )
 

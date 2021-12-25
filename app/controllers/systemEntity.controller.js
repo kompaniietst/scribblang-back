@@ -5,9 +5,15 @@ const SystemEntity = db.systemEntity;
 
 exports.allsystementites = (req, res) => {
     SystemEntity
-        .find()
+        .find({ uid: req.userId })
         .populate({ path: "type", model: "SystemEntityType", select: "name" })
         .exec((err, entities) => {
+            // console.log("----------------------------------------");
+            // console.log('req', req.userId);
+            // console.log("----------------------------------------");
+            // console.log('entities', entities);
+            // console.log("----------------------------------------");
+            // console.log("----------------------------------------");
             if (err) {
                 res.status(500).send({ message: err });
                 return;
@@ -20,14 +26,13 @@ exports.allsystementites = (req, res) => {
 
 exports.createSystemEntity = (req, res) => {
 
-    // console.log('R E Q ', req.body);
-
     const systemEntity = new SystemEntity({
         name: req.body.name,
         path: req.body.path,
         createdAt: new Date(),
-        // uid: ''
+        uid: req.body.uid
     })
+
 
     systemEntity.save((err, user) => {
         if (err) {
@@ -50,9 +55,9 @@ exports.createSystemEntity = (req, res) => {
                     // console.log('fileTypes ', fileTypes);
                     // console.log('.');
 
-
                     systemEntity.type = fileTypes[0]._id;
 
+                    console.log('saving', fileTypes);
                     // console.log(' ');
                     // console.log('NEWsystemEntity ', systemEntity);
                     // console.log(' ');
@@ -63,11 +68,18 @@ exports.createSystemEntity = (req, res) => {
                             return;
                         }
 
+                        console.log('saving2');
+
+
                         res.status(200).send({
                             id: systemEntity._id,
                             name: systemEntity.name,
-                            type: req.body.type,
-                            createdAt: systemEntity.createdAt
+                            type: {
+                                _id: systemEntity._id,
+                                type: req.body.type
+                            },
+                            createdAt: systemEntity.createdAt,
+                            uid: systemEntity.uid
                             // email: user.email,
                             // // roles: authorities,
                             // token: token
@@ -129,7 +141,7 @@ class Tree {
 
     print() {
         console.log(' ');
-        console.log(this.root);
+        // console.log(this.root);
 
         return this.root;
     }
@@ -143,7 +155,7 @@ class Tree {
                 : allData[i].path[0];
 
             let parent = this.root.children.find(c => c.name === parentName);
-            console.log('... ', parent);
+            // console.log('... ', parent);
 
             if (!parent) {
                 parent = new Node(parentName, allData[i]);

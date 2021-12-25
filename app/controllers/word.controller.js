@@ -30,7 +30,7 @@ exports.save = (req, res) => {
         word: req.body.word,
         translation: req.body.translation,
         transcription: req.body.transcription,
-        uid: "614b6b48ccfca2f3a8356f9c",
+        uid: null,
         path: req.body.path,
         createdAt: new Date()
     });

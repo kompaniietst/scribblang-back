@@ -19,10 +19,10 @@ exports.moderatorBoard = (req, res) => {
 
 
 exports.currentUser = (req, res) => {
-    // console.log('currentUser', req);
+    console.log('curr user ', req.userId);
 
     User.findOne({
-        id: req.userId
+        _id: req.userId
     })
         .populate("roles", "-__v")
         .exec((err, user) => {
@@ -30,17 +30,16 @@ exports.currentUser = (req, res) => {
                 res.status(500).send({ message: err });
                 return;
             }
-
+            // console.log('user ', user);
             if (!user) {
                 return res.status(404).send({ message: "User Not found." });
             }
 
 
-            console.log('USER ', user);
 
 
             res.status(200).send({
-                // id: user._id,
+                uid: user._id,
                 username: user.username,
                 email: user.email,
                 // roles: authorities,
