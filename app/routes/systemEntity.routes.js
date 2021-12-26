@@ -18,6 +18,12 @@ module.exports = function (app) {
 
     app.post(
         "/api/systemEntity/create",
+        [authJwt.verifyToken],
         controller.createSystemEntity
     );
+
+    app.delete(
+        "/api/systemEntity/delete/:id",
+        controller.deleteSystemEntity
+    )
 };

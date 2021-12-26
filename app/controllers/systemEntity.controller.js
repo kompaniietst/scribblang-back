@@ -1,19 +1,36 @@
 const db = require('../models');
-
+const mongoose = require("mongoose");
 const SystemEntityType = db.systemEntityType;
 const SystemEntity = db.systemEntity;
 
 exports.allsystementites = (req, res) => {
     SystemEntity
         .find({ uid: req.userId })
+        // .populate()
         .populate({ path: "type", model: "SystemEntityType", select: "name" })
-        .exec((err, entities) => {
+        .exec((err, data) => {
+            // console.log('data: ', data);
+
             // console.log("----------------------------------------");
             // console.log('req', req.userId);
             // console.log("----------------------------------------");
-            // console.log('entities', entities);
-            // console.log("----------------------------------------");
-            // console.log("----------------------------------------");
+            // const entities = data
+            //     .map(ents => {
+            //         return { ...ents }
+            //         // return [...entities, type: entities.type.name]
+            //     })
+
+            const entities = data.map(entity => {
+                return {
+                    _id: entity.id,
+                    name: entity.name,
+                    path: entity.path,
+                    createdAt: entity.createdAt,
+                    uid: entity.uid,
+                    type: entity.type.name
+                }
+            });
+
             if (err) {
                 res.status(500).send({ message: err });
                 return;
@@ -25,17 +42,25 @@ exports.allsystementites = (req, res) => {
 }
 
 exports.createSystemEntity = (req, res) => {
+    console.log('uid: req.userId = ', req.userId);
+    console.log('data', req.body);
+    const uid = req.userId;
 
     const systemEntity = new SystemEntity({
         name: req.body.name,
         path: req.body.path,
         createdAt: new Date(),
-        uid: req.body.uid
+        type: new SystemEntityType({
+            // _id: req.userId,
+            name: req.body.type
+        }),
+        uid: uid
     })
 
 
     systemEntity.save((err, user) => {
         if (err) {
+            console.log('err', ReferenceError);
             res.status(500).send({ message: err });
             return;
         }
@@ -47,6 +72,7 @@ exports.createSystemEntity = (req, res) => {
                 },
                 (err, fileTypes) => {
                     if (err) {
+                        console.log('err in filety');
                         res.status(500).send({ message: err });
                         return;
                     }
@@ -57,7 +83,7 @@ exports.createSystemEntity = (req, res) => {
 
                     systemEntity.type = fileTypes[0]._id;
 
-                    console.log('saving', fileTypes);
+                    // console.log('saving', fileTypes);
                     // console.log(' ');
                     // console.log('NEWsystemEntity ', systemEntity);
                     // console.log(' ');
@@ -68,21 +94,16 @@ exports.createSystemEntity = (req, res) => {
                             return;
                         }
 
-                        console.log('saving2');
+                        // console.log('saving2');
 
 
                         res.status(200).send({
                             id: systemEntity._id,
                             name: systemEntity.name,
-                            type: {
-                                _id: systemEntity._id,
-                                type: req.body.type
-                            },
+                            path: systemEntity.path,
+                            type: systemEntity.type,
                             createdAt: systemEntity.createdAt,
-                            uid: systemEntity.uid
-                            // email: user.email,
-                            // // roles: authorities,
-                            // token: token
+                            uid: uid
                         });
                     });
                 }
@@ -96,6 +117,22 @@ exports.createSystemEntity = (req, res) => {
     // res.status(200).send("folder in creation");
 }
 
+exports.deleteSystemEntity = (req, res) => {
+    const id = req.params.id;
+
+    SystemEntity
+        .deleteOne({ _id: { $in: id } },
+            (err) => {
+                if (err)
+                    res.status(500).send({ message: err });
+
+                console.log('err', err);
+                console.log('fileTypes', fileTypes);
+
+                res.status(200);
+            })
+}
+
 class Node {
     constructor(name, data) {
         this.name = name;
@@ -104,7 +141,6 @@ class Node {
         this.path = !data ? null : data.path;
         this.type = !data ? null : data.type;
         this.createdAt = !data ? null : data.createdAt;
-        this.hidden = false;
     }
 
     addChild(childData, level) {

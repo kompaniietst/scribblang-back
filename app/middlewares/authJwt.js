@@ -14,11 +14,12 @@ verifyToken = (req, res, next) => {
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      console.log('ttoken ', token);
+      // console.log('ttoken ', token);
       console.log('err ', err);
       return res.status(401).send({ message: "Unauthorized!" });
     }
     req.userId = decoded.id;
+    // console.log('in jwt', token, config.secret, decoded);
     next();
   });
 };
