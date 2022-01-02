@@ -22,6 +22,18 @@ module.exports = function (app) {
         controller.createSystemEntity
     );
 
+    app.post(
+        "/api/systemEntity/update/:id",
+        [authJwt.verifyToken],
+        controller.updateSystemEntity
+    );
+
+    app.get(
+        "/api/systemEntity/:id",
+        [authJwt.verifyToken],
+        controller.getSystemEntity
+    );
+
     app.delete(
         "/api/systemEntity/delete/:id",
         controller.deleteSystemEntity
